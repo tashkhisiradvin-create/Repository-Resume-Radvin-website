@@ -1,0 +1,1083 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>رادوین - برنامه نویس حرفه‌ای</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            box-sizing: border-box;
+        }
+        @import url('https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Arabic:wght@300;400;500;600;700&display=swap');
+        
+        * {
+            font-family: 'Vazirmatn', 'Inter', 'Noto Sans Arabic', sans-serif;
+        }
+        
+        [dir="ltr"] * {
+            font-family: 'Inter', 'Noto Sans Arabic', 'Vazirmatn', sans-serif;
+        }
+        
+        .skill-bar {
+            background: linear-gradient(90deg, #3b82f6 0%, #1d4ed8 100%);
+            animation: fillBar 2s ease-in-out;
+        }
+        @keyframes fillBar {
+            from { width: 0%; }
+            to { width: var(--width); }
+        }
+        .hero-bg {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+        .card-hover {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .card-hover:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .language-btn {
+            transition: all 0.3s ease;
+        }
+        .language-btn.active {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.05);
+        }
+        .fade-in {
+            animation: fadeIn 0.5s ease-in-out;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Language Selector -->
+    <div class="fixed top-4 left-4 z-50 bg-white/90 backdrop-blur-sm rounded-full p-2 shadow-lg">
+        <div class="flex gap-2">
+            <button onclick="changeLanguage('fa')" class="language-btn px-3 py-2 rounded-full text-sm font-medium active" data-lang="fa">
+                🇮🇷 فارسی
+            </button>
+            <button onclick="changeLanguage('en')" class="language-btn px-3 py-2 rounded-full text-sm font-medium" data-lang="en">
+                🇺🇸 English
+            </button>
+            <button onclick="changeLanguage('ar')" class="language-btn px-3 py-2 rounded-full text-sm font-medium" data-lang="ar">
+                🇸🇦 العربية
+            </button>
+            <button onclick="changeLanguage('es')" class="language-btn px-3 py-2 rounded-full text-sm font-medium" data-lang="es">
+                🇪🇸 Español
+            </button>
+        </div>
+    </div>
+
+    <!-- Header Section -->
+    <header class="hero-bg text-white py-20">
+        <div class="container mx-auto px-6 text-center">
+            <!-- Profile Image -->
+            <div class="mb-8">
+                <div class="w-32 h-32 mx-auto rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center p-6">
+                    <svg viewBox="0 0 100 100" class="w-full h-full text-white">
+                        <!-- Person head -->
+                        <circle cx="50" cy="25" r="12" fill="currentColor"/>
+                        
+                        <!-- Person body -->
+                        <rect x="42" y="35" width="16" height="25" rx="3" fill="currentColor"/>
+                        
+                        <!-- Arms -->
+                        <rect x="30" y="40" width="12" height="4" rx="2" fill="currentColor"/>
+                        <rect x="58" y="40" width="12" height="4" rx="2" fill="currentColor"/>
+                        
+                        <!-- Laptop -->
+                        <rect x="35" y="55" width="30" height="20" rx="2" fill="rgba(255,255,255,0.9)"/>
+                        <rect x="37" y="57" width="26" height="14" fill="rgba(0,0,0,0.8)"/>
+                        
+                        <!-- Code on laptop screen -->
+                        <line x1="39" y1="60" x2="48" y2="60" stroke="#00ff88" stroke-width="0.8"/>
+                        <line x1="39" y1="63" x2="55" y2="63" stroke="#00aaff" stroke-width="0.8"/>
+                        <line x1="42" y1="66" x2="50" y2="66" stroke="#ff6b6b" stroke-width="0.8"/>
+                        <line x1="39" y1="69" x2="58" y2="69" stroke="#ffd93d" stroke-width="0.8"/>
+                        
+                        <!-- Typing hands -->
+                        <circle cx="45" cy="52" r="2" fill="currentColor"/>
+                        <circle cx="55" cy="52" r="2" fill="currentColor"/>
+                        
+                        <!-- Coffee cup -->
+                        <rect x="70" y="50" width="6" height="8" rx="1" fill="rgba(255,255,255,0.8)"/>
+                        <rect x="71" y="51" width="4" height="6" fill="rgba(139,69,19,0.8)"/>
+                        <line x1="76" y1="52" x2="78" y2="52" stroke="rgba(255,255,255,0.6)" stroke-width="1"/>
+                        
+                        <!-- Floating code symbols -->
+                        <text x="15" y="20" font-family="monospace" font-size="6" fill="rgba(255,255,255,0.6)">&lt;/&gt;</text>
+                        <text x="80" y="30" font-family="monospace" font-size="5" fill="rgba(255,255,255,0.4)">{}</text>
+                        <text x="20" y="80" font-family="monospace" font-size="5" fill="rgba(255,255,255,0.5)">[]</text>
+                        
+                        <!-- Animated typing effect -->
+                        <rect x="59" y="68" width="1" height="2" fill="#00ff88">
+                            <animate attributeName="opacity" values="1;0;1" dur="1s" repeatCount="indefinite"/>
+                        </rect>
+                    </svg>
+                </div>
+            </div>
+            
+            <h1 class="text-5xl font-bold mb-4" data-translate="name">رادوین تشخیصی</h1>
+            <p class="text-xl mb-6" data-translate="title">برنامه نویس حرفه‌ای و توسعه دهنده نرم افزار</p>
+            <p class="text-lg opacity-90 max-w-2xl mx-auto leading-relaxed" data-translate="description">
+                با بیش از سال‌ها تجربه در زمینه برنامه نویسی، آماده ارائه بهترین خدمات توسعه نرم افزار و وب هستم. 
+                تخصص من در زمینه‌های مختلف برنامه نویسی و استفاده از جدیدترین تکنولوژی‌ها می‌باشد.
+            </p>
+            
+            <!-- Contact Info -->
+            <div class="mt-8 flex justify-center items-center gap-6 text-lg flex-wrap">
+                <div class="flex items-center gap-2">
+                    <span>📱</span>
+                    <span>+98 936 387 3635</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span>📧</span>
+                    <span>Tashkhisi.radvin@gmail.com</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span>🌍</span>
+                    <span data-translate="location">ایران، تهران</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Skills Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800" data-translate="skills_title">مهارت‌های تخصصی</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-7xl mx-auto">
+                <!-- Frontend Skills -->
+                <div class="card-hover bg-gradient-to-br from-blue-50 to-indigo-100 p-8 rounded-2xl">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-3">
+                        <span>🎨</span>
+                        <span data-translate="frontend_title">Frontend Development</span>
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">HTML5/CSS3</span>
+                                <span class="text-blue-600 font-bold">98%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full" style="--width: 98%; width: 98%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">JavaScript ES6+</span>
+                                <span class="text-blue-600 font-bold">96%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full" style="--width: 96%; width: 96%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">React.js</span>
+                                <span class="text-blue-600 font-bold">95%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full" style="--width: 95%; width: 95%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Vue.js</span>
+                                <span class="text-blue-600 font-bold">92%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full" style="--width: 92%; width: 92%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Angular</span>
+                                <span class="text-blue-600 font-bold">90%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full" style="--width: 90%; width: 90%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">TypeScript</span>
+                                <span class="text-blue-600 font-bold">94%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full" style="--width: 94%; width: 94%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backend Skills -->
+                <div class="card-hover bg-gradient-to-br from-green-50 to-emerald-100 p-8 rounded-2xl">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-3">
+                        <span>⚙️</span>
+                        <span data-translate="backend_title">Backend Development</span>
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Python/Django</span>
+                                <span class="text-green-600 font-bold">97%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-600" style="--width: 97%; width: 97%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Node.js/Express</span>
+                                <span class="text-green-600 font-bold">95%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-600" style="--width: 95%; width: 95%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">PHP/Laravel</span>
+                                <span class="text-green-600 font-bold">93%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-600" style="--width: 93%; width: 93%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Java/Spring</span>
+                                <span class="text-green-600 font-bold">91%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-600" style="--width: 91%; width: 91%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">C#/.NET</span>
+                                <span class="text-green-600 font-bold">90%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-600" style="--width: 90%; width: 90%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Go/Golang</span>
+                                <span class="text-green-600 font-bold">92%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-green-500 to-emerald-600" style="--width: 92%; width: 92%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Database Skills -->
+                <div class="card-hover bg-gradient-to-br from-indigo-50 to-blue-100 p-8 rounded-2xl">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-3">
+                        <span>🗄️</span>
+                        <span data-translate="database_title">Database & Storage</span>
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">MySQL</span>
+                                <span class="text-indigo-600 font-bold">96%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600" style="--width: 96%; width: 96%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">PostgreSQL</span>
+                                <span class="text-indigo-600 font-bold">94%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600" style="--width: 94%; width: 94%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">MongoDB</span>
+                                <span class="text-indigo-600 font-bold">93%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600" style="--width: 93%; width: 93%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Redis</span>
+                                <span class="text-indigo-600 font-bold">91%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600" style="--width: 91%; width: 91%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Elasticsearch</span>
+                                <span class="text-indigo-600 font-bold">90%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-indigo-500 to-blue-600" style="--width: 90%; width: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mobile Development -->
+                <div class="card-hover bg-gradient-to-br from-purple-50 to-violet-100 p-8 rounded-2xl">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-3">
+                        <span>📱</span>
+                        <span data-translate="mobile_title">Mobile Development</span>
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">React Native</span>
+                                <span class="text-purple-600 font-bold">95%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-purple-500 to-violet-600" style="--width: 95%; width: 95%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Flutter/Dart</span>
+                                <span class="text-purple-600 font-bold">94%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-purple-500 to-violet-600" style="--width: 94%; width: 94%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Swift/iOS</span>
+                                <span class="text-purple-600 font-bold">92%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-purple-500 to-violet-600" style="--width: 92%; width: 92%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Kotlin/Android</span>
+                                <span class="text-purple-600 font-bold">91%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-purple-500 to-violet-600" style="--width: 91%; width: 91%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Xamarin</span>
+                                <span class="text-purple-600 font-bold">90%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-purple-500 to-violet-600" style="--width: 90%; width: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- DevOps & Cloud -->
+                <div class="card-hover bg-gradient-to-br from-orange-50 to-red-100 p-8 rounded-2xl">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-3">
+                        <span>☁️</span>
+                        <span data-translate="devops_title">DevOps & Cloud</span>
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Docker</span>
+                                <span class="text-orange-600 font-bold">96%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-orange-500 to-red-600" style="--width: 96%; width: 96%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Kubernetes</span>
+                                <span class="text-orange-600 font-bold">93%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-orange-500 to-red-600" style="--width: 93%; width: 93%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">AWS</span>
+                                <span class="text-orange-600 font-bold">94%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-orange-500 to-red-600" style="--width: 94%; width: 94%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Azure</span>
+                                <span class="text-orange-600 font-bold">92%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-orange-500 to-red-600" style="--width: 92%; width: 92%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">CI/CD</span>
+                                <span class="text-orange-600 font-bold">95%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-orange-500 to-red-600" style="--width: 95%; width: 95%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Other Technologies -->
+                <div class="card-hover bg-gradient-to-br from-teal-50 to-cyan-100 p-8 rounded-2xl">
+                    <h3 class="text-2xl font-semibold mb-6 text-gray-800 flex items-center gap-3">
+                        <span>🛠️</span>
+                        <span data-translate="other_tech_title">Other Technologies</span>
+                    </h3>
+                    
+                    <div class="space-y-4">
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Git & GitHub</span>
+                                <span class="text-teal-600 font-bold">98%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600" style="--width: 98%; width: 98%;"></div>
+                            </div>
+                        </div>
+                        
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">GraphQL</span>
+                                <span class="text-teal-600 font-bold">93%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600" style="--width: 93%; width: 93%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">REST API</span>
+                                <span class="text-teal-600 font-bold">97%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600" style="--width: 97%; width: 97%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Microservices</span>
+                                <span class="text-teal-600 font-bold">91%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600" style="--width: 91%; width: 91%;"></div>
+                            </div>
+                        </div>
+
+                        <div class="skill-item">
+                            <div class="flex justify-between mb-2">
+                                <span class="font-medium">Blockchain</span>
+                                <span class="text-teal-600 font-bold">90%</span>
+                            </div>
+                            <div class="bg-gray-200 rounded-full h-3">
+                                <div class="skill-bar h-3 rounded-full bg-gradient-to-r from-teal-500 to-cyan-600" style="--width: 90%; width: 90%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Client Testimonials Section -->
+    <section class="py-16 bg-gradient-to-br from-indigo-100 to-purple-100">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800" data-translate="testimonials_title">نظرات مشتریان</h2>
+            
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto mb-16">
+                <!-- Client 1 -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-blue-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            A
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-bold text-gray-800" data-translate="client1_name">احمد محمدی</h4>
+                            <p class="text-sm text-gray-600" data-translate="client1_title">مدیر شرکت تکنولوژی پارس</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-3">
+                        <span class="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</span>
+                        <span class="mr-2 font-bold text-green-600">96/100</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed" data-translate="client1_review">
+                        "رادوین یک برنامه‌نویس فوق‌العاده است. پروژه فروشگاه آنلاین ما را در زمان رکورد و با کیفیت بالا تحویل داد. حرفه‌ای و قابل اعتماد."
+                    </p>
+                    <p class="text-sm text-blue-600 mt-2 font-medium" data-translate="client1_project">پروژه: فروشگاه آنلاین</p>
+                </div>
+
+                <!-- Client 2 -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-green-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            S
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-bold text-gray-800" data-translate="client2_name">سارا احمدی</h4>
+                            <p class="text-sm text-gray-600" data-translate="client2_title">بنیانگذار استارتاپ دیجی‌مارکت</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-3">
+                        <span class="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</span>
+                        <span class="mr-2 font-bold text-green-600">98/100</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed" data-translate="client2_review">
+                        "اپلیکیشن موبایل ما را با React Native طراحی کرد. نتیجه فراتر از انتظار بود. سرعت، زیبایی و عملکرد عالی!"
+                    </p>
+                    <p class="text-sm text-blue-600 mt-2 font-medium" data-translate="client2_project">پروژه: اپلیکیشن موبایل</p>
+                </div>
+
+                <!-- Client 3 -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-purple-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            M
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-bold text-gray-800" data-translate="client3_name">محمد رضایی</h4>
+                            <p class="text-sm text-gray-600" data-translate="client3_title">مدیر IT شرکت صنعتی البرز</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-3">
+                        <span class="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</span>
+                        <span class="mr-2 font-bold text-green-600">94/100</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed" data-translate="client3_review">
+                        "سیستم مدیریت انبار ما را کاملاً بازطراحی کرد. از Python و Django استفاده کرد. سیستم بسیار قدرتمند و کاربردی شد."
+                    </p>
+                    <p class="text-sm text-blue-600 mt-2 font-medium" data-translate="client3_project">پروژه: سیستم مدیریت انبار</p>
+                </div>
+
+                <!-- Client 4 -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-red-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            F
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-bold text-gray-800" data-translate="client4_name">فاطمه کریمی</h4>
+                            <p class="text-sm text-gray-600" data-translate="client4_title">مدیر آژانس دیجیتال مارکتینگ</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-3">
+                        <span class="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</span>
+                        <span class="mr-2 font-bold text-green-600">97/100</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed" data-translate="client4_review">
+                        "وبسایت شرکت ما را با تکنولوژی‌های مدرن طراحی کرد. سئو عالی، سرعت بالا و طراحی زیبا. واقعاً استاد کار است."
+                    </p>
+                    <p class="text-sm text-blue-600 mt-2 font-medium" data-translate="client4_project">پروژه: وبسایت شرکتی</p>
+                </div>
+
+                <!-- Client 5 -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-indigo-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            A
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-bold text-gray-800" data-translate="client5_name">علی حسینی</h4>
+                            <p class="text-sm text-gray-600" data-translate="client5_title">مدیر شرکت فین‌تک نوآور</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-3">
+                        <span class="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</span>
+                        <span class="mr-2 font-bold text-green-600">95/100</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed" data-translate="client5_review">
+                        "پلتفرم پرداخت آنلاین ما را توسعه داد. امنیت بالا، عملکرد سریع و رابط کاربری عالی. تیم ما کاملاً راضی است."
+                    </p>
+                    <p class="text-sm text-blue-600 mt-2 font-medium" data-translate="client5_project">پروژه: پلتفرم پرداخت</p>
+                </div>
+
+                <!-- Client 6 -->
+                <div class="bg-white rounded-2xl shadow-lg p-6 card-hover">
+                    <div class="flex items-center mb-4">
+                        <div class="w-12 h-12 bg-teal-500 rounded-full flex items-center justify-center text-white font-bold text-lg">
+                            N
+                        </div>
+                        <div class="mr-3">
+                            <h4 class="font-bold text-gray-800" data-translate="client6_name">نسرین موسوی</h4>
+                            <p class="text-sm text-gray-600" data-translate="client6_title">مدیر شرکت آموزش آنلاین</p>
+                        </div>
+                    </div>
+                    <div class="flex mb-3">
+                        <span class="text-yellow-400 text-xl">⭐⭐⭐⭐⭐</span>
+                        <span class="mr-2 font-bold text-green-600">99/100</span>
+                    </div>
+                    <p class="text-gray-700 leading-relaxed" data-translate="client6_review">
+                        "پلتفرم آموزش آنلاین ما را با Node.js و React ساخت. قابلیت‌های فوق‌العاده و تجربه کاربری بی‌نظیر. عالی!"
+                    </p>
+                    <p class="text-sm text-blue-600 mt-2 font-medium" data-translate="client6_project">پروژه: پلتفرم آموزشی</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Feedback Section -->
+    <section class="py-16 bg-gradient-to-br from-gray-100 to-gray-200">
+        <div class="container mx-auto px-6">
+            <h2 class="text-4xl font-bold text-center mb-12 text-gray-800" data-translate="feedback_title">نظرات شما</h2>
+            
+            <div class="max-w-2xl mx-auto">
+                <div class="bg-white rounded-2xl shadow-xl p-8">
+                    <form id="feedbackForm" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="first_name_label">نام</label>
+                                <input type="text" id="firstName" required 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="last_name_label">نام خانوادگی</label>
+                                <input type="text" id="lastName" required 
+                                       class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="phone_label">شماره تلفن</label>
+                            <input type="tel" id="phone" required 
+                                   class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2" data-translate="feedback_label">نظر شما</label>
+                            <textarea id="feedback" rows="4" required 
+                                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent transition-all resize-none"
+                                      data-translate-placeholder="feedback_placeholder"></textarea>
+                        </div>
+                        
+                        <button type="submit" 
+                                class="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white py-3 px-6 rounded-lg font-semibold hover:from-blue-700 hover:to-purple-700 transform hover:scale-105 transition-all duration-200 shadow-lg"
+                                data-translate="submit_button">
+                            ارسال نظر
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Submitted Feedback Display -->
+    <section id="feedbackDisplay" class="py-16 bg-white" style="display: none;">
+        <div class="container mx-auto px-6">
+            <h2 class="text-3xl font-bold text-center mb-8 text-gray-800" data-translate="submitted_feedback_title">نظرات ارسال شده</h2>
+            <div id="feedbackList" class="max-w-4xl mx-auto space-y-6"></div>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <footer class="bg-gray-800 text-white py-12">
+        <div class="container mx-auto px-6 text-center">
+            <h3 class="text-2xl font-bold mb-6" data-translate="contact_title">تماس با من</h3>
+            <div class="flex justify-center items-center gap-8 text-lg flex-wrap">
+                <div class="flex items-center gap-2">
+                    <span>📱</span>
+                    <span>+98 936 387 3635</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span>📧</span>
+                    <span>Tashkhisi.radvin@gmail.com</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span>💼</span>
+                    <span data-translate="footer_title">رادوین تشخیصی - برنامه نویس</span>
+                </div>
+            </div>
+            <p class="mt-6 text-gray-400" data-translate="footer_description">آماده همکاری برای پروژه‌های جدید و چالش‌برانگیز</p>
+        </div>
+    </footer>
+
+    <script>
+        // Translation data
+        const translations = {
+            fa: {
+                name: 'رادوین تشخیصی',
+                title: 'برنامه نویس حرفه‌ای و توسعه دهنده نرم افزار',
+                description: 'با بیش از سال‌ها تجربه در زمینه برنامه نویسی، آماده ارائه بهترین خدمات توسعه نرم افزار و وب هستم. تخصص من در زمینه‌های مختلف برنامه نویسی و استفاده از جدیدترین تکنولوژی‌ها می‌باشد.',
+                location: 'ایران، تهران',
+                skills_title: 'مهارت‌های تخصصی',
+                frontend_title: 'Frontend Development',
+                backend_title: 'Backend Development',
+                database_title: 'Database & Storage',
+                mobile_title: 'Mobile Development',
+                devops_title: 'DevOps & Cloud',
+                other_tech_title: 'سایر تکنولوژی‌ها',
+                testimonials_title: 'نظرات مشتریان',
+                client1_name: 'احمد محمدی',
+                client1_title: 'مدیر شرکت تکنولوژی پارس',
+                client1_review: 'رادوین یک برنامه‌نویس فوق‌العاده است. پروژه فروشگاه آنلاین ما را در زمان رکورد و با کیفیت بالا تحویل داد. حرفه‌ای و قابل اعتماد.',
+                client1_project: 'پروژه: فروشگاه آنلاین',
+                client2_name: 'سارا احمدی',
+                client2_title: 'بنیانگذار استارتاپ دیجی‌مارکت',
+                client2_review: 'اپلیکیشن موبایل ما را با React Native طراحی کرد. نتیجه فراتر از انتظار بود. سرعت، زیبایی و عملکرد عالی!',
+                client2_project: 'پروژه: اپلیکیشن موبایل',
+                client3_name: 'محمد رضایی',
+                client3_title: 'مدیر IT شرکت صنعتی البرز',
+                client3_review: 'سیستم مدیریت انبار ما را کاملاً بازطراحی کرد. از Python و Django استفاده کرد. سیستم بسیار قدرتمند و کاربردی شد.',
+                client3_project: 'پروژه: سیستم مدیریت انبار',
+                client4_name: 'فاطمه کریمی',
+                client4_title: 'مدیر آژانس دیجیتال مارکتینگ',
+                client4_review: 'وبسایت شرکت ما را با تکنولوژی‌های مدرن طراحی کرد. سئو عالی، سرعت بالا و طراحی زیبا. واقعاً استاد کار است.',
+                client4_project: 'پروژه: وبسایت شرکتی',
+                client5_name: 'علی حسینی',
+                client5_title: 'مدیر شرکت فین‌تک نوآور',
+                client5_review: 'پلتفرم پرداخت آنلاین ما را توسعه داد. امنیت بالا، عملکرد سریع و رابط کاربری عالی. تیم ما کاملاً راضی است.',
+                client5_project: 'پروژه: پلتفرم پرداخت',
+                client6_name: 'نسرین موسوی',
+                client6_title: 'مدیر شرکت آموزش آنلاین',
+                client6_review: 'پلتفرم آموزش آنلاین ما را با Node.js و React ساخت. قابلیت‌های فوق‌العاده و تجربه کاربری بی‌نظیر. عالی!',
+                client6_project: 'پروژه: پلتفرم آموزشی',
+                feedback_title: 'نظرات شما',
+                first_name_label: 'نام',
+                last_name_label: 'نام خانوادگی',
+                phone_label: 'شماره تلفن',
+                feedback_label: 'نظر شما',
+                feedback_placeholder: 'نظر خود را در مورد کیفیت کار و خدمات ارائه شده بنویسید...',
+                submit_button: 'ارسال نظر',
+                submitted_feedback_title: 'نظرات ارسال شده',
+                contact_title: 'تماس با من',
+                footer_title: 'رادوین تشخیصی - برنامه نویس',
+                footer_description: 'آماده همکاری برای پروژه‌های جدید و چالش‌برانگیز',
+                success_message: 'نظر شما با موفقیت ثبت شد! متشکرم از وقتی که گذاشتید.'
+            },
+            en: {
+                name: 'Radvin Tashkhisi',
+                title: 'Professional Programmer & Software Developer',
+                description: 'With years of experience in programming, I am ready to provide the best software and web development services. My expertise spans various programming fields and the use of cutting-edge technologies.',
+                location: 'Iran, Tehran',
+                skills_title: 'Technical Skills',
+                frontend_title: 'Frontend Development',
+                backend_title: 'Backend Development',
+                database_title: 'Database & Storage',
+                mobile_title: 'Mobile Development',
+                devops_title: 'DevOps & Cloud',
+                other_tech_title: 'Other Technologies',
+                testimonials_title: 'Client Testimonials',
+                client1_name: 'Ahmad Mohammadi',
+                client1_title: 'Manager at Pars Technology Company',
+                client1_review: 'Radvin is an exceptional programmer. He delivered our online store project in record time with high quality. Professional and reliable.',
+                client1_project: 'Project: Online Store',
+                client2_name: 'Sara Ahmadi',
+                client2_title: 'Founder of DigiMarket Startup',
+                client2_review: 'He designed our mobile app with React Native. The result exceeded expectations. Excellent speed, beauty, and performance!',
+                client2_project: 'Project: Mobile Application',
+                client3_name: 'Mohammad Rezaei',
+                client3_title: 'IT Manager at Alborz Industrial Company',
+                client3_review: 'He completely redesigned our warehouse management system using Python and Django. The system became very powerful and practical.',
+                client3_project: 'Project: Warehouse Management System',
+                client4_name: 'Fateme Karimi',
+                client4_title: 'Digital Marketing Agency Manager',
+                client4_review: 'He designed our company website with modern technologies. Excellent SEO, high speed, and beautiful design. Truly a master of his craft.',
+                client4_project: 'Project: Corporate Website',
+                client5_name: 'Ali Hosseini',
+                client5_title: 'Manager at Innovative FinTech Company',
+                client5_review: 'He developed our online payment platform. High security, fast performance, and excellent user interface. Our team is completely satisfied.',
+                client5_project: 'Project: Payment Platform',
+                client6_name: 'Nasrin Mousavi',
+                client6_title: 'Online Education Company Manager',
+                client6_review: 'He built our online education platform with Node.js and React. Amazing features and unparalleled user experience. Excellent!',
+                client6_project: 'Project: Educational Platform',
+                feedback_title: 'Your Feedback',
+                first_name_label: 'First Name',
+                last_name_label: 'Last Name',
+                phone_label: 'Phone Number',
+                feedback_label: 'Your Feedback',
+                feedback_placeholder: 'Write your feedback about the quality of work and services provided...',
+                submit_button: 'Submit Feedback',
+                submitted_feedback_title: 'Submitted Feedback',
+                contact_title: 'Contact Me',
+                footer_title: 'Radvin Tashkhisi - Programmer',
+                footer_description: 'Ready to collaborate on new and challenging projects',
+                success_message: 'Your feedback has been successfully submitted! Thank you for your time.'
+            },
+            ar: {
+                name: 'رادفين تشخيصي',
+                title: 'مبرمج محترف ومطور برمجيات',
+                description: 'مع سنوات من الخبرة في البرمجة، أنا مستعد لتقديم أفضل خدمات تطوير البرمجيات والويب. خبرتي تشمل مجالات البرمجة المختلفة واستخدام أحدث التقنيات.',
+                location: 'إيران، طهران',
+                skills_title: 'المهارات التقنية',
+                frontend_title: 'تطوير الواجهة الأمامية',
+                backend_title: 'تطوير الواجهة الخلفية',
+                database_title: 'قواعد البيانات والتخزين',
+                mobile_title: 'تطوير تطبيقات الجوال',
+                devops_title: 'DevOps والحوسبة السحابية',
+                other_tech_title: 'تقنيات أخرى',
+                testimonials_title: 'شهادات العملاء',
+                client1_name: 'أحمد محمدي',
+                client1_title: 'مدير شركة بارس للتكنولوجيا',
+                client1_review: 'رادفين مبرمج استثنائي. سلم مشروع متجرنا الإلكتروني في وقت قياسي وبجودة عالية. محترف وموثوق.',
+                client1_project: 'المشروع: متجر إلكتروني',
+                client2_name: 'سارة أحمدي',
+                client2_title: 'مؤسسة شركة ديجي ماركت الناشئة',
+                client2_review: 'صمم تطبيقنا المحمول باستخدام React Native. النتيجة فاقت التوقعات. سرعة وجمال وأداء ممتاز!',
+                client2_project: 'المشروع: تطبيق محمول',
+                client3_name: 'محمد رضائي',
+                client3_title: 'مدير تقنية المعلومات في شركة البرز الصناعية',
+                client3_review: 'أعاد تصميم نظام إدارة المستودعات بالكامل باستخدام Python و Django. أصبح النظام قوياً جداً وعملياً.',
+                client3_project: 'المشروع: نظام إدارة المستودعات',
+                client4_name: 'فاطمة كريمي',
+                client4_title: 'مديرة وكالة التسويق الرقمي',
+                client4_review: 'صمم موقع شركتنا بتقنيات حديثة. SEO ممتاز، سرعة عالية وتصميم جميل. حقاً أستاذ في عمله.',
+                client4_project: 'المشروع: موقع الشركة',
+                client5_name: 'علي حسيني',
+                client5_title: 'مدير شركة التكنولوجيا المالية المبتكرة',
+                client5_review: 'طور منصة الدفع الإلكتروني الخاصة بنا. أمان عالي، أداء سريع وواجهة مستخدم ممتازة. فريقنا راضٍ تماماً.',
+                client5_project: 'المشروع: منصة الدفع',
+                client6_name: 'نسرين موسوي',
+                client6_title: 'مديرة شركة التعليم الإلكتروني',
+                client6_review: 'بنى منصة التعليم الإلكتروني الخاصة بنا باستخدام Node.js و React. ميزات مذهلة وتجربة مستخدم لا مثيل لها. ممتاز!',
+                client6_project: 'المشروع: منصة تعليمية',
+                feedback_title: 'ملاحظاتكم',
+                first_name_label: 'الاسم الأول',
+                last_name_label: 'اسم العائلة',
+                phone_label: 'رقم الهاتف',
+                feedback_label: 'ملاحظاتكم',
+                feedback_placeholder: 'اكتبوا ملاحظاتكم حول جودة العمل والخدمات المقدمة...',
+                submit_button: 'إرسال الملاحظات',
+                submitted_feedback_title: 'الملاحظات المرسلة',
+                contact_title: 'اتصل بي',
+                footer_title: 'رادفين تشخيصي - مبرمج',
+                footer_description: 'مستعد للتعاون في مشاريع جديدة ومتحدية',
+                success_message: 'تم إرسال ملاحظاتكم بنجاح! شكراً لوقتكم.'
+            },
+            es: {
+                name: 'Radvin Tashkhisi',
+                title: 'Programador Profesional y Desarrollador de Software',
+                description: 'Con años de experiencia en programación, estoy listo para brindar los mejores servicios de desarrollo de software y web. Mi experiencia abarca varios campos de programación y el uso de tecnologías de vanguardia.',
+                location: 'Irán, Teherán',
+                skills_title: 'Habilidades Técnicas',
+                frontend_title: 'Desarrollo Frontend',
+                backend_title: 'Desarrollo Backend',
+                database_title: 'Base de Datos y Almacenamiento',
+                mobile_title: 'Desarrollo Móvil',
+                devops_title: 'DevOps y Nube',
+                other_tech_title: 'Otras Tecnologías',
+                testimonials_title: 'Testimonios de Clientes',
+                client1_name: 'Ahmad Mohammadi',
+                client1_title: 'Gerente en Pars Technology Company',
+                client1_review: 'Radvin es un programador excepcional. Entregó nuestro proyecto de tienda en línea en tiempo récord con alta calidad. Profesional y confiable.',
+                client1_project: 'Proyecto: Tienda en Línea',
+                client2_name: 'Sara Ahmadi',
+                client2_title: 'Fundadora de DigiMarket Startup',
+                client2_review: 'Diseñó nuestra aplicación móvil con React Native. El resultado superó las expectativas. ¡Excelente velocidad, belleza y rendimiento!',
+                client2_project: 'Proyecto: Aplicación Móvil',
+                client3_name: 'Mohammad Rezaei',
+                client3_title: 'Gerente de TI en Alborz Industrial Company',
+                client3_review: 'Rediseñó completamente nuestro sistema de gestión de almacén usando Python y Django. El sistema se volvió muy potente y práctico.',
+                client3_project: 'Proyecto: Sistema de Gestión de Almacén',
+                client4_name: 'Fateme Karimi',
+                client4_title: 'Gerente de Agencia de Marketing Digital',
+                client4_review: 'Diseñó el sitio web de nuestra empresa con tecnologías modernas. Excelente SEO, alta velocidad y hermoso diseño. Verdaderamente un maestro de su oficio.',
+                client4_project: 'Proyecto: Sitio Web Corporativo',
+                client5_name: 'Ali Hosseini',
+                client5_title: 'Gerente en Innovative FinTech Company',
+                client5_review: 'Desarrolló nuestra plataforma de pagos en línea. Alta seguridad, rendimiento rápido y excelente interfaz de usuario. Nuestro equipo está completamente satisfecho.',
+                client5_project: 'Proyecto: Plataforma de Pagos',
+                client6_name: 'Nasrin Mousavi',
+                client6_title: 'Gerente de Empresa de Educación en Línea',
+                client6_review: 'Construyó nuestra plataforma de educación en línea con Node.js y React. Características increíbles y experiencia de usuario sin igual. ¡Excelente!',
+                client6_project: 'Proyecto: Plataforma Educativa',
+                feedback_title: 'Sus Comentarios',
+                first_name_label: 'Nombre',
+                last_name_label: 'Apellido',
+                phone_label: 'Número de Teléfono',
+                feedback_label: 'Sus Comentarios',
+                feedback_placeholder: 'Escriba sus comentarios sobre la calidad del trabajo y los servicios prestados...',
+                submit_button: 'Enviar Comentarios',
+                submitted_feedback_title: 'Comentarios Enviados',
+                contact_title: 'Contáctame',
+                footer_title: 'Radvin Tashkhisi - Programador',
+                footer_description: 'Listo para colaborar en proyectos nuevos y desafiantes',
+                success_message: '¡Sus comentarios han sido enviados exitosamente! Gracias por su tiempo.'
+            }
+        };
+
+        let currentLanguage = 'fa';
+        let feedbackData = [
+            {
+                id: 1,
+                firstName: 'مریم',
+                lastName: 'احمدی',
+                phone: '09123456789',
+                feedback: 'سلام رادوین جان! کار شما واقعاً فوق‌العاده است. وبسایت شرکت ما را طراحی کردید و نتیجه بسیار عالی بود. سرعت، زیبایی و عملکرد همه چیز بی‌نظیر است. حتماً برای پروژه‌های بعدی هم با شما همکاری خواهیم کرد. موفق باشید! 🌟',
+                date: new Date().toLocaleDateString('fa-IR')
+            }
+        ];
+
+        function changeLanguage(lang) {
+            currentLanguage = lang;
+            
+            // Update active button
+            document.querySelectorAll('.language-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.querySelector(`[data-lang="${lang}"]`).classList.add('active');
+            
+            // Update HTML attributes
+            const html = document.documentElement;
+            html.lang = lang;
+            html.dir = (lang === 'fa' || lang === 'ar') ? 'rtl' : 'ltr';
+            
+            // Update all translatable elements
+            document.querySelectorAll('[data-translate]').forEach(element => {
+                const key = element.getAttribute('data-translate');
+                if (translations[lang] && translations[lang][key]) {
+                    element.textContent = translations[lang][key];
+                }
+            });
+            
+            // Update placeholder
+            const textarea = document.querySelector('[data-translate-placeholder]');
+            if (textarea) {
+                const key = textarea.getAttribute('data-translate-placeholder');
+                if (translations[lang] && translations[lang][key]) {
+                    textarea.placeholder = translations[lang][key];
+                }
+            }
+            
+            // Add fade-in animation
+            document.body.classList.add('fade-in');
+            setTimeout(() => {
+                document.body.classList.remove('fade-in');
+            }, 500);
+        }
+
+        document.getElementById('feedbackForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const firstName = document.getElementById('firstName').value;
+            const lastName = document.getElementById('lastName').value;
+            const phone = document.getElementById('phone').value;
+            const feedback = document.getElementById('feedback').value;
+            
+            const newFeedback = {
+                id: Date.now(),
+                firstName,
+                lastName,
+                phone,
+                feedback,
+                date: new Date().toLocaleDateString(currentLanguage === 'fa' ? 'fa-IR' : currentLanguage === 'ar' ? 'ar-SA' : 'en-US')
+            };
+            
+            feedbackData.push(newFeedback);
+            displayFeedback();
+            
+            // Reset form
+            this.reset();
+            
+            // Show success message
+            const successMessage = translations[currentLanguage].success_message;
+            alert(successMessage);
+        });
+
+        function displayFeedback() {
+            const feedbackList = document.getElementById('feedbackList');
+            const feedbackDisplay = document.getElementById('feedbackDisplay');
+            
+            if (feedbackData.length > 0) {
+                feedbackDisplay.style.display = 'block';
+                
+                feedbackList.innerHTML = feedbackData.map(item => `
+                    <div class="bg-gradient-to-r from-blue-50 to-purple-50 p-6 rounded-xl shadow-md border-r-4 border-blue-500">
+                        <div class="flex justify-between items-start mb-4">
+                            <div>
+                                <h4 class="font-bold text-lg text-gray-800">${item.firstName} ${item.lastName}</h4>
+                                <p class="text-gray-600">📱 ${item.phone}</p>
+                            </div>
+                            <span class="text-sm text-gray-500">${item.date}</span>
+                        </div>
+                        <p class="text-gray-700 leading-relaxed">${item.feedback}</p>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Display initial feedback on page load
+        displayFeedback();
+
+        // Animate skill bars on scroll
+        const observerOptions = {
+            threshold: 0.5,
+            rootMargin: '0px 0px -100px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const skillBars = entry.target.querySelectorAll('.skill-bar');
+                    skillBars.forEach(bar => {
+                        bar.style.animation = 'fillBar 2s ease-in-out';
+                    });
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.card-hover').forEach(card => {
+            observer.observe(card);
+        });
+
+        // Initialize with Persian
+        changeLanguage('fa');
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'985230c5924b481e',t:'MTc1ODg4MzcyMy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
